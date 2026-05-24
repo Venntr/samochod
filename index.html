@@ -8,13 +8,13 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
-    :root{--bg:#eef1f7;--sf:#fff;--sf2:#f7f9fc;--br:#dde3ee;--pr:#1a56db;--prl:#eff4ff;--prd:#1a3a8f;--ac:#f97316;--acl:#fff7ed;--ok:#0d9e6e;--okl:#ecfdf5;--er:#dc2626;--erl:#fff1f1;--wa:#d97706;--wal:#fffbeb;--tx:#0d1526;--t2:#3d5280;--mu:#8fa3cc;--sxs:0 1px 3px rgba(20,40,100,.07);--ssm:0 2px 8px rgba(20,40,100,.08);--smd:0 6px 24px rgba(20,40,100,.10);--slg:0 20px 60px rgba(20,40,100,.14);--r:12px;--rs:8px}
+    :root{--bg:#eef1f7;--sf:#fff;--sf2:#f7f9fc;--br:#dde3ee;--pr:#1a56db;--prl:#eff4ff;--prd:#1a3a8f;--ok:#0d9e6e;--okl:#ecfdf5;--tx:#0d1526;--t2:#3d5280;--mu:#8fa3cc;--xs:0 1px 3px rgba(20,40,100,.07);--sm:0 2px 8px rgba(20,40,100,.08);--lg:0 20px 60px rgba(20,40,100,.14);--r:12px;--rs:8px}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;line-height:1.55}
 
     /* LOGIN */
     #sl{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#0f2460 0%,#1a56db 55%,#2d7ef7 100%);padding:20px}
-    .lcard{background:#fff;border-radius:20px;padding:52px 44px 44px;width:100%;max-width:420px;box-shadow:var(--slg);text-align:center;animation:up .35s ease}
+    .lcard{background:#fff;border-radius:20px;padding:52px 44px 44px;width:100%;max-width:420px;box-shadow:var(--lg);text-align:center;animation:up .35s ease}
     @keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
     .lemb{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,var(--prl),#c7d9ff);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:34px;box-shadow:0 4px 14px rgba(26,86,219,.18)}
     .lt{font-size:26px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
@@ -28,52 +28,26 @@
     .eye:hover{color:var(--pr)}
     .lbtn{width:100%;padding:14px;background:var(--pr);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s,transform .1s}
     .lbtn:hover{background:var(--prd)}.lbtn:active{transform:scale(.98)}
-    .lerr{color:var(--er);font-size:13px;margin-top:12px;display:none;font-weight:500}
-
-    /* SETUP */
-    #ss{min-height:100vh;display:none;align-items:center;justify-content:center;background:linear-gradient(145deg,#0f2460 0%,#1a56db 55%,#2d7ef7 100%);padding:20px}
-    .scard{background:#fff;border-radius:20px;padding:44px;width:100%;max-width:580px;box-shadow:var(--slg);animation:up .35s ease}
-    .stitle{font-size:22px;font-weight:700;margin-bottom:10px}
-    .ssub{color:var(--t2);font-size:14px;line-height:1.7;margin-bottom:28px}
-    .steps{display:flex;flex-direction:column;gap:14px}
-    .step{display:flex;gap:14px;align-items:flex-start;padding:16px;background:var(--sf2);border-radius:var(--rs);border:1px solid var(--br)}
-    .snum{background:var(--pr);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
-    .stxt{font-size:13px;color:var(--t2);line-height:1.6}
-    .stxt strong{color:var(--tx);display:block;margin-bottom:3px;font-size:14px}
-    code{background:#e8edf7;padding:2px 7px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;color:var(--pr)}
-    .warn-box{margin-top:22px;padding:14px 18px;background:var(--wal);border-radius:var(--rs);border:1px solid #fcd34d;font-size:13px;color:#92400e;line-height:1.6}
-
-    /* LOADING */
-    #slo{min-height:100vh;display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:var(--bg)}
-    .spin{width:40px;height:40px;border:3px solid var(--br);border-top-color:var(--pr);border-radius:50%;animation:rot .7s linear infinite}
-    @keyframes rot{to{transform:rotate(360deg)}}
-    .ltxt{color:var(--t2);font-size:14px;font-weight:500}
+    .lerr{color:#dc2626;font-size:13px;margin-top:12px;display:none;font-weight:500}
 
     /* APP */
     #sa{display:none;animation:fade .3s ease}
     @keyframes fade{from{opacity:0}to{opacity:1}}
-    .topbar{background:#fff;border-bottom:1px solid var(--br);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;box-shadow:var(--sxs)}
+    .topbar{background:#fff;border-bottom:1px solid var(--br);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;box-shadow:var(--xs)}
     .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--tx);letter-spacing:-.01em}
     .brand em{color:var(--pr);font-style:normal}
     .tr{display:flex;align-items:center;gap:10px}
     .odb{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;background:var(--prl);color:var(--pr);padding:6px 14px;border-radius:30px}
-    .syncb{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:6px 12px;border-radius:30px;transition:all .3s;cursor:default;white-space:nowrap}
-    .syncb.idle{background:#f1f5f9;color:var(--mu)}
-    .syncb.syncing{background:var(--wal);color:var(--wa)}
-    .syncb.ok{background:var(--okl);color:var(--ok)}
-    .syncb.err{background:var(--erl);color:var(--er);cursor:pointer}
-    .sd{width:7px;height:7px;border-radius:50%;background:currentColor}
-    .sd.rot{animation:rot .7s linear infinite;border-radius:0;width:10px;height:10px;border:2px solid transparent;border-top-color:var(--wa);background:none}
     .lout{background:none;border:1.5px solid var(--br);padding:6px 14px;border-radius:30px;cursor:pointer;color:var(--t2);font-family:inherit;font-size:13px;font-weight:500;transition:all .2s}
-    .lout:hover{border-color:var(--er);color:var(--er)}
+    .lout:hover{border-color:#dc2626;color:#dc2626}
     .con{max-width:1240px;margin:0 auto;padding:28px 20px}
 
     /* STATS */
     .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
     @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:480px){.stats{grid-template-columns:1fr}}
-    .stat{background:#fff;border-radius:var(--r);padding:20px 22px;box-shadow:var(--sxs);border:1px solid var(--br);position:relative;overflow:hidden;transition:box-shadow .2s}
-    .stat:hover{box-shadow:var(--ssm)}
+    .stat{background:#fff;border-radius:var(--r);padding:20px 22px;box-shadow:var(--xs);border:1px solid var(--br);position:relative;overflow:hidden;transition:box-shadow .2s}
+    .stat:hover{box-shadow:var(--sm)}
     .stat::before{content:'';position:absolute;left:0;top:0;width:4px;height:100%;background:var(--c,var(--pr));border-radius:4px 0 0 4px}
     .slbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:10px}
     .sval{font-family:'DM Mono',monospace;font-size:30px;font-weight:500;color:var(--tx);line-height:1;margin-bottom:6px;letter-spacing:-.02em}
@@ -81,18 +55,16 @@
     .sico{position:absolute;right:16px;top:14px;font-size:26px;opacity:.13}
 
     /* TABS */
-    .tabs{display:flex;gap:3px;background:#fff;border:1px solid var(--br);border-radius:var(--r);padding:4px;margin-bottom:20px;box-shadow:var(--sxs)}
+    .tabs{display:flex;gap:3px;background:#fff;border:1px solid var(--br);border-radius:var(--r);padding:4px;margin-bottom:20px;box-shadow:var(--xs)}
     .tab{flex:1;padding:10px 12px;border:none;background:none;border-radius:var(--rs);cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--t2);transition:all .18s;white-space:nowrap}
     .tab.on{background:var(--pr);color:#fff;box-shadow:0 2px 10px rgba(26,86,219,.3)}
     .tab:hover:not(.on){background:var(--bg);color:var(--tx)}
     .pane{display:none}.pane.on{display:block}
 
     /* CARD */
-    .card{background:#fff;border-radius:var(--r);border:1px solid var(--br);box-shadow:var(--sxs);overflow:hidden}
-    .ch{padding:16px 22px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .card{background:#fff;border-radius:var(--r);border:1px solid var(--br);box-shadow:var(--xs);overflow:hidden}
+    .ch{padding:16px 22px;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:12px}
     .ctitle{font-size:15px;font-weight:600;color:var(--tx)}
-    .abtn{display:flex;align-items:center;gap:7px;padding:8px 18px;background:var(--pr);color:#fff;border:none;border-radius:var(--rs);cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;transition:background .18s,transform .1s}
-    .abtn:hover{background:var(--prd)}.abtn:active{transform:scale(.97)}
 
     /* TABLE */
     .tw{overflow-x:auto}
@@ -103,80 +75,32 @@
     td{padding:10px 18px;text-align:right;border-bottom:1px solid #f0f3f8;font-size:13.5px}
     td:first-child{text-align:left}
     tbody tr:last-child td{border-bottom:none}
-    tbody tr{transition:background .12s}
     tbody tr:hover{background:#f3f7ff}
     .tdate{font-weight:600;font-size:13.5px}
     .tmono{font-family:'DM Mono',monospace;font-size:13px}
     .tnull{color:var(--mu);font-style:italic;font-size:12px}
-    .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:600;font-family:'DM Mono',monospace;background:var(--prl);color:var(--pr)}
-    .aw{display:flex;gap:4px;justify-content:flex-end}
-    .ab{background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:6px;font-size:14px;transition:background .14s;line-height:1}
-    .ab:hover{background:var(--bg)}.ab.del:hover{background:var(--erl)}
-    tfoot td{background:var(--prl);color:var(--pr);font-weight:700;font-family:'DM Mono',monospace;font-size:13px}
     .even{background:#fafbfd}
-
-    /* MODAL */
-    .ov{position:fixed;inset:0;background:rgba(13,21,38,.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .2s}
-    .ov.on{opacity:1;pointer-events:all}
-    .modal{background:#fff;border-radius:18px;padding:36px;width:100%;max-width:440px;box-shadow:var(--slg);transform:translateY(18px);transition:transform .25s}
-    .ov.on .modal{transform:none}
-    .mtit{font-size:19px;font-weight:700;margin-bottom:26px}
-    .fg{margin-bottom:18px}
-    .fl{display:block;font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px}
-    .fi{width:100%;padding:12px 15px;border:2px solid var(--br);border-radius:var(--rs);font-size:15px;font-family:'DM Mono',monospace;outline:none;transition:border-color .2s;background:var(--sf2);color:var(--tx)}
-    .fi:focus{border-color:var(--pr);background:#fff}
-    .mft{display:flex;gap:10px;justify-content:flex-end;margin-top:26px}
-    .bsec{padding:10px 22px;background:var(--bg);color:var(--t2);border:1.5px solid var(--br);border-radius:var(--rs);cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;transition:all .18s}
-    .bsec:hover{background:var(--br)}
-    .bpri{padding:10px 26px;background:var(--pr);color:#fff;border:none;border-radius:var(--rs);cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;transition:background .18s}
-    .bpri:hover{background:var(--prd)}.bpri:disabled{opacity:.5;cursor:not-allowed}
-    .bdan{padding:10px 26px;background:var(--er);color:#fff;border:none;border-radius:var(--rs);cursor:pointer;font-family:inherit;font-size:14px;font-weight:700}
-    .bdan:hover{background:#b91c1c}
-    .cbox{background:#fff;border-radius:18px;padding:32px;max-width:360px;width:100%;box-shadow:var(--slg);text-align:center}
-    .cico{font-size:42px;margin-bottom:14px}
-    .ctit2{font-size:18px;font-weight:700;margin-bottom:8px}
-    .cmsg{font-size:13px;color:var(--t2);margin-bottom:22px;line-height:1.6}
-    .cbtns{display:flex;gap:10px;justify-content:center}
+    tfoot td{background:var(--prl);color:var(--pr);font-weight:700;font-family:'DM Mono',monospace;font-size:13px}
 
     /* CHARTS */
     .cg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     @media(max-width:720px){.cg{grid-template-columns:1fr}}
-    .ccrd{background:#fff;border-radius:var(--r);border:1px solid var(--br);box-shadow:var(--sxs);padding:22px}
+    .ccrd{background:#fff;border-radius:var(--r);border:1px solid var(--br);box-shadow:var(--xs);padding:22px}
     .cfull{grid-column:1/-1}
     .ctlb{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em}
     .cwrap{position:relative;height:240px}
 
-    /* TOAST */
-    .toast{position:fixed;bottom:24px;right:24px;background:#0d1526;color:#fff;padding:12px 22px;border-radius:var(--rs);font-size:13px;font-weight:600;z-index:9999;transform:translateY(70px);opacity:0;transition:transform .28s,opacity .28s;box-shadow:var(--smd);max-width:340px}
-    .toast.on{transform:none;opacity:1}
-    .toast.et{background:var(--er)}
-
-    @media(max-width:600px){.topbar{padding:0 16px}.con{padding:16px 12px}th,td{padding:9px 10px}.odb,.syncb{font-size:11px;padding:5px 9px}}
+    @media(max-width:600px){.topbar{padding:0 16px}.con{padding:16px 12px}th,td{padding:9px 10px}}
   </style>
 </head>
 <body>
 
-<!-- SETUP -->
-<div id="ss" style="display:none">
-  <div class="scard">
-    <div style="font-size:40px;margin-bottom:16px">⚙️</div>
-    <div class="stitle">Konfiguracja — jeden raz</div>
-    <div class="ssub">Dane przechowywane są w pliku <code>data.json</code> w Twoim repozytorium GitHub — działają na każdym urządzeniu. Wykonaj poniższe kroki, a&nbsp;potem wpisz swoje dane w sekcji <code>CONFIG</code> w kodzie strony.</div>
-    <div class="steps">
-      <div class="step"><div class="snum">1</div><div class="stxt"><strong>Utwórz repozytorium na GitHub</strong>Może być <strong>prywatne</strong>. Wgraj do niego dwa pliki: <code>index.html</code> (ta strona) i <code>data.json</code> (plik z danymi). Włącz GitHub Pages: <em>Settings → Pages → Deploy from branch → main</em>.</div></div>
-      <div class="step"><div class="snum">2</div><div class="stxt"><strong>Utwórz Fine-grained Personal Access Token</strong>GitHub → <em>Settings → Developer settings → Fine-grained tokens → Generate new token</em>. Wybierz tylko to repozytorium. Uprawnienie: <code>Contents: Read and write</code>. Resztę zostaw bez zmian.</div></div>
-      <div class="step"><div class="snum">3</div><div class="stxt"><strong>Uzupełnij sekcję CONFIG w kodzie HTML</strong>W pliku <code>index.html</code> znajdź blok z komentarzem <code>/* ── CONFIG ── */</code> i wpisz swój login GitHub, nazwę repozytorium oraz wygenerowany token.</div></div>
-    </div>
-    <div class="warn-box">⚠️ Token PAT będzie widoczny w kodzie HTML. Korzystaj z <strong>prywatnego repozytorium</strong> i ogranicz zakres tokenu wyłącznie do tego repo.</div>
-  </div>
-</div>
-
 <!-- LOGIN -->
-<div id="sl" style="display:none">
+<div id="sl">
   <div class="lcard">
     <div class="lemb">🚗</div>
     <div class="lt">Dacia · Dziennik</div>
-    <div class="ls">Dziennik przebiegu pojazdu — dostęp prywatny</div>
+    <div class="ls">Dziennik przebiegu pojazdu</div>
     <div class="liw">
       <input type="password" id="pw" class="li" placeholder="Hasło dostępu" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
       <button class="eye" onclick="togglePw()">👁</button>
@@ -186,21 +110,12 @@
   </div>
 </div>
 
-<!-- LOADING -->
-<div id="slo" style="display:none">
-  <div class="spin"></div>
-  <div class="ltxt" id="lmsg">Ładowanie danych z GitHub…</div>
-</div>
-
 <!-- APP -->
 <div id="sa">
   <div class="topbar">
     <div class="brand">🚗 Dacia <em>·</em> <span>Dziennik przebiegu</span></div>
     <div class="tr">
       <div class="odb" id="odb">— km</div>
-      <div class="syncb idle" id="syncb" onclick="syncClick()" title="Status synchronizacji">
-        <div class="sd" id="sdd"></div><span id="stxt">Zsynchronizowano</span>
-      </div>
       <button class="lout" onclick="doLogout()">Wyloguj</button>
     </div>
   </div>
@@ -211,30 +126,34 @@
       <div class="stat" style="--c:#f97316"><div class="sico">📆</div><div class="slbl">Ten miesiąc</div><div class="sval" id="s3">—</div><div class="shin" id="s3h">km</div></div>
       <div class="stat" style="--c:#8b5cf6"><div class="sico">🗓️</div><div class="slbl">Ten rok</div><div class="sval" id="s4">—</div><div class="shin" id="s4h">km</div></div>
     </div>
+
     <div class="tabs">
       <button class="tab on" onclick="goTab('w',this)">📋 Wpisy</button>
       <button class="tab" onclick="goTab('m',this)">📆 Miesięcznie</button>
       <button class="tab" onclick="goTab('y',this)">🗓️ Rocznie</button>
       <button class="tab" onclick="goTab('c',this)">📊 Wykresy</button>
     </div>
+
     <div class="pane on" id="tab-w">
       <div class="card">
-        <div class="ch"><span class="ctitle">Wszystkie wpisy przebiegu</span><button class="abtn" onclick="openAdd()">＋ Dodaj wpis</button></div>
+        <div class="ch"><span class="ctitle">Wszystkie wpisy przebiegu</span></div>
         <div class="tw"><table>
-          <thead><tr><th>Data</th><th>Przebieg (km)</th><th>Km / wpis</th><th>Śr. km / dzień</th><th>Σ miesiąc</th><th>Σ rok</th><th></th></tr></thead>
+          <thead><tr><th>Data</th><th>Przebieg (km)</th><th>Śr. km / dzień</th><th>Σ miesiąc</th><th>Σ rok</th></tr></thead>
           <tbody id="tb1"></tbody>
         </table></div>
       </div>
     </div>
+
     <div class="pane" id="tab-m">
       <div class="card">
         <div class="ch"><span class="ctitle">Podsumowanie miesięczne</span></div>
         <div class="tw"><table>
-          <thead><tr><th>Miesiąc</th><th>Łącznie (km)</th><th>Wpisów</th><th>Śr. km / wpis</th><th>Dni w mies.</th><th>Śr. km / dzień</th></tr></thead>
+          <thead><tr><th>Miesiąc</th><th>Łącznie (km)</th><th>Wpisów</th><th>Dni w mies.</th><th>Śr. km / dzień</th></tr></thead>
           <tbody id="tb2"></tbody><tfoot><tr id="tf2"></tr></tfoot>
         </table></div>
       </div>
     </div>
+
     <div class="pane" id="tab-y">
       <div class="card">
         <div class="ch"><span class="ctitle">Podsumowanie roczne</span></div>
@@ -244,69 +163,88 @@
         </table></div>
       </div>
     </div>
+
     <div class="pane" id="tab-c">
       <div class="cg">
         <div class="ccrd cfull"><div class="ctlb">Przebieg całkowity w czasie</div><div class="cwrap"><canvas id="cc1"></canvas></div></div>
         <div class="ccrd"><div class="ctlb">Km według miesięcy</div><div class="cwrap"><canvas id="cc2"></canvas></div></div>
         <div class="ccrd"><div class="ctlb">Km według lat</div><div class="cwrap"><canvas id="cc3"></canvas></div></div>
-        <div class="ccrd"><div class="ctlb">Trend — średnia km / dzień</div><div class="cwrap"><canvas id="cc4"></canvas></div></div>
-        <div class="ccrd"><div class="ctlb">Rozkład km / wpis</div><div class="cwrap"><canvas id="cc5"></canvas></div></div>
+        <div class="ccrd cfull"><div class="ctlb">Trend — średnia km / dzień</div><div class="cwrap"><canvas id="cc4"></canvas></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL FORM -->
-<div class="ov" id="ovf">
-  <div class="modal">
-    <div class="mtit" id="mt">Dodaj wpis</div>
-    <div class="fg"><label class="fl" for="fd">Data pomiaru</label><input type="date" id="fd" class="fi"></div>
-    <div class="fg"><label class="fl" for="fo">Przebieg (km)</label><input type="number" id="fo" class="fi" min="0" step="1" placeholder="np. 100 000"></div>
-    <div class="mft"><button class="bsec" onclick="closeM()">Anuluj</button><button class="bpri" id="msave" onclick="saveE()">Zapisz</button></div>
-  </div>
-</div>
-
-<!-- MODAL CONFIRM -->
-<div class="ov" id="ovd">
-  <div class="cbox">
-    <div class="cico">🗑️</div>
-    <div class="ctit2">Usunąć wpis?</div>
-    <div class="cmsg">Tej operacji nie można cofnąć.<br>Wpis zostanie trwale usunięty z dziennika i pliku data.json.</div>
-    <div class="cbtns"><button class="bsec" onclick="closeD()">Anuluj</button><button class="bdan" id="dyes">Usuń</button></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <script>
-/* ══════════════════════════════════
-   ── CONFIG ──  ← UZUPEŁNIJ PONIŻEJ
-══════════════════════════════════ */
-const GH_OWNER = 'Venntr';        // ← Twój login GitHub, np. 'brzezik5'
-const GH_REPO  = 'samochod';        // ← nazwa repozytorium, np. 'dacia-log'
-const GH_TOKEN = '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';    // ← Personal Access Token (Fine-grained, Contents R/W)
-const GH_FILE  = 'data.json';         // ← nie zmieniaj
-/* ══════════════════════════════════
-   Hasło: Dacia2026!
-   (aby zmienić: wstaw SHA-256 nowego hasła poniżej)
-══════════════════════════════════ */
+/* ════════════════════════════════════════════
+   HASŁO: Dacia2026!
+   (SHA-256 nowego hasła wklej w PWD_HASH)
+════════════════════════════════════════════ */
 const PWD_HASH = '48418321602707f5e55e93f56e41707c59439ff8420e1435c75b8ef9f067f22a';
 
-/* ── STATE ── */
-let entries=[], nextId=1, fileSha=null;
-let editId=null, delId=null;
-let charts={}, chartsDirty=true, saving=false;
-
-const configured = GH_OWNER!=='TWOJ_LOGIN' && GH_REPO!=='NAZWA_REPO' && GH_TOKEN!=='ghp_TWOJ_TOKEN';
-
-/* ── SCREEN HELPER ── */
-function show(id){
-  ['ss','sl','slo','sa'].forEach(x=>{
-    const el=document.getElementById(x);
-    if(x===id){el.style.display=x==='slo'?'flex':x==='ss'?'flex':'block';}
-    else el.style.display='none';
-  });
-}
+/* ════════════════════════════════════════════
+   DANE — aby dodać wpis, dopisz nową linię:
+   ['RRRR-MM-DD', PRZEBIEG_KM],
+   Wpisy mogą być w dowolnej kolejności.
+════════════════════════════════════════════ */
+const DANE = [
+  ['2026-01-19', 94368],
+  ['2026-01-20', 94369],
+  ['2026-01-21', 94411],
+  ['2026-01-22', 94423],
+  ['2026-01-23', 95013],
+  ['2026-01-25', 95537],
+  ['2026-01-26', 95586],
+  ['2026-01-27', 95621],
+  ['2026-01-28', 95687],
+  ['2026-01-29', 95748],
+  ['2026-01-31', 95789],
+  ['2026-02-01', 96082],
+  ['2026-02-02', 96126],
+  ['2026-02-03', 96162],
+  ['2026-02-04', 96298],
+  ['2026-02-05', 96427],
+  ['2026-02-06', 96469],
+  ['2026-02-07', 96531],
+  ['2026-02-09', 96606],
+  ['2026-02-18', 96887],
+  ['2026-02-20', 96962],
+  ['2026-02-21', 97010],
+  ['2026-02-26', 97275],
+  ['2026-02-28', 97456],
+  ['2026-03-01', 97603],
+  ['2026-03-03', 97672],
+  ['2026-03-06', 97807],
+  ['2026-03-07', 97858],
+  ['2026-03-09', 97912],
+  ['2026-03-10', 98061],
+  ['2026-03-11', 98133],
+  ['2026-03-12', 98202],
+  ['2026-03-16', 98266],
+  ['2026-03-17', 98303],
+  ['2026-03-20', 98562],
+  ['2026-03-21', 98638],
+  ['2026-03-22', 98766],
+  ['2026-03-24', 98795],
+  ['2026-03-25', 98886],
+  ['2026-03-26', 98953],
+  ['2026-03-29', 99243],
+  ['2026-03-31', 99341],
+  ['2026-04-02', 99466],
+  ['2026-04-03', 99587],
+  ['2026-04-05', 99732],
+  ['2026-04-07', 99858],
+  ['2026-04-09', 99971],
+  ['2026-04-10',100046],
+  ['2026-04-11',100087],
+  ['2026-04-14',100288],
+  ['2026-04-27',101180],
+  ['2026-04-30',101347],
+  ['2026-05-06',102677],
+  ['2026-05-10',103714],
+  ['2026-05-12',104388],
+  ['2026-05-13',104484],
+];
 
 /* ── AUTH ── */
 async function sha256(s){
@@ -315,101 +253,76 @@ async function sha256(s){
 }
 async function doLogin(){
   const h=await sha256(document.getElementById('pw').value);
-  if(h===PWD_HASH){sessionStorage.setItem('ok','1');show('slo');loadGH();}
-  else{
+  if(h===PWD_HASH){
+    sessionStorage.setItem('ok','1');
+    document.getElementById('sl').style.display='none';
+    document.getElementById('sa').style.display='block';
+    init();
+  } else {
     const i=document.getElementById('pw');
-    i.classList.add('shake');document.getElementById('lerr').style.display='block';
+    i.classList.add('shake');
+    document.getElementById('lerr').style.display='block';
     setTimeout(()=>{i.classList.remove('shake');document.getElementById('lerr').style.display='none';},2800);
   }
 }
 function doLogout(){sessionStorage.removeItem('ok');location.reload();}
 function togglePw(){const i=document.getElementById('pw');i.type=i.type==='password'?'text':'password';}
 
-/* ── GITHUB API ── */
-const API=`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
-const GHH=()=>({'Authorization':`Bearer ${GH_TOKEN}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'});
-
-async function loadGH(){
-  setSync('syncing','Ładowanie…');
-  try{
-    const r=await fetch(API+'?t='+Date.now(),{headers:GHH()});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const j=await r.json();
-    fileSha=j.sha;
-    const d=JSON.parse(atob(j.content.replace(/\n/g,'')));
-    entries=d.entries||[];nextId=d.nextId||(entries.length+1);
-    setSync('ok','Zsynchronizowano');show('sa');renderAll();
-  }catch(e){
-    setSync('err','Błąd — kliknij by ponowić');
-    toast('❌ Błąd ładowania: '+e.message,true);
-    show('sa');renderAll();
-  }
-}
-
-async function saveGH(msg){
-  if(saving)return;saving=true;
-  setSync('syncing','Zapisywanie…');
-  document.getElementById('msave').disabled=true;
-  const body=JSON.stringify({
-    message:msg,
-    content:btoa(unescape(encodeURIComponent(JSON.stringify({entries,nextId},null,2)))),
-    sha:fileSha
-  });
-  try{
-    const r=await fetch(API,{method:'PUT',headers:GHH(),body});
-    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}
-    const j=await r.json();fileSha=j.content.sha;
-    setSync('ok','Zsynchronizowano');
-  }catch(e){
-    setSync('err','Błąd zapisu — kliknij by ponowić');
-    toast('❌ Błąd synchronizacji: '+e.message,true);
-  }finally{saving=false;document.getElementById('msave').disabled=false;}
-}
-
-function syncClick(){if(document.getElementById('syncb').classList.contains('err'))loadGH();}
-function setSync(st,txt){
-  const b=document.getElementById('syncb'),d=document.getElementById('sdd');
-  b.className='syncb '+st;
-  d.className=st==='syncing'?'sd rot':'sd';
-  document.getElementById('stxt').textContent=txt;
-}
-
 /* ── COMPUTE ── */
-function rows(){
-  if(!entries.length)return[];
-  const s=[...entries].sort((a,b)=>a.date.localeCompare(b.date));
-  const out=[];let cum=0;
-  const f0=s.length>1?+new Date(s[1].date):null;
-  const mr={},yr={};
+function computeRows(){
+  const s=[...DANE].sort((a,b)=>a[0].localeCompare(b[0]));
+  const rows=[];
+  let cum=0;
+  const f0=s.length>1?+new Date(s[1][0]):null;
+  const mR={},yR={};
   for(let i=0;i<s.length;i++){
-    const e=s[i],ym=e.date.slice(0,7),yr2=e.date.slice(0,4);
-    let km=null,avg=null,sM=0,sY=0;
+    const [date,odo]=s[i];
+    const ym=date.slice(0,7),yr=date.slice(0,4);
+    let avg=null,sM=0,sY=0;
     if(i>0){
-      km=e.odometer-s[i-1].odometer;cum+=km;
-      const d=Math.round((+new Date(e.date)-f0)/86400000)+1;
-      avg=cum/d;
-      mr[ym]=(mr[ym]||0)+km;yr[yr2]=(yr[yr2]||0)+km;
-      sM=mr[ym];sY=yr[yr2];
+      const km=odo-s[i-1][1];
+      cum+=km;
+      const days=Math.round((+new Date(date)-f0)/86400000)+1;
+      avg=cum/days;
+      mR[ym]=(mR[ym]||0)+km;
+      yR[yr]=(yR[yr]||0)+km;
+      sM=mR[ym];sY=yR[yr];
     }
-    out.push({id:e.id,date:e.date,odo:e.odometer,km,avg,ym,yr:yr2,sM,sY});
+    rows.push({date,odo,avg,ym,yr,sM,sY,hasKm:i>0});
   }
-  return out;
+  return rows;
 }
-function mst(){
+function mst(rows){
   const m={};
-  for(const r of rows().filter(r=>r.km!=null)){
+  for(const r of rows.filter(r=>r.hasKm)){
     if(!m[r.ym])m[r.ym]={ym:r.ym,t:0,n:0};
-    m[r.ym].t+=r.km;m[r.ym].n++;
+    const km=r.sM-(rows.filter(x=>x.ym===r.ym&&x.hasKm&&x.date<r.date).reduce((a,x)=>a+(x.sM-(rows.find(y=>y.ym===x.ym&&y.hasKm&&y.date<x.date)?.sM||0)),0));
+    m[r.ym].t=r.sM;m[r.ym].n++;
   }
-  return Object.values(m).sort((a,b)=>a.ym.localeCompare(b.ym));
+  // recompute totals properly
+  const m2={};
+  const rows2=computeRows();
+  for(const r of rows2.filter(r=>r.hasKm)){
+    if(!m2[r.ym])m2[r.ym]={ym:r.ym,t:0,n:0};
+    m2[r.ym].n++;
+  }
+  for(const ym of Object.keys(m2)){
+    const last=rows2.filter(r=>r.ym===ym&&r.hasKm).pop();
+    if(last)m2[ym].t=last.sM;
+  }
+  return Object.values(m2).sort((a,b)=>a.ym.localeCompare(b.ym));
 }
-function yst(){
+function yst(rows){
   const y={};
-  for(const r of rows().filter(r=>r.km!=null)){
+  for(const r of rows.filter(r=>r.hasKm)){
     if(!y[r.yr])y[r.yr]={yr:r.yr,t:0,n:0,f:r.date,l:r.date};
-    y[r.yr].t+=r.km;y[r.yr].n++;
+    y[r.yr].n++;
     if(r.date<y[r.yr].f)y[r.yr].f=r.date;
     if(r.date>y[r.yr].l)y[r.yr].l=r.date;
+  }
+  for(const yr of Object.keys(y)){
+    const last=rows.filter(r=>r.yr===yr&&r.hasKm).pop();
+    if(last)y[yr].t=last.sY;
   }
   return Object.values(y).sort((a,b)=>a.yr.localeCompare(b.yr));
 }
@@ -422,53 +335,71 @@ const fym=ym=>{const[y,m]=ym.split('-');return`${MO[+m-1]} ${y}`;};
 const dim=ym=>{const[y,m]=ym.split('-').map(Number);return new Date(y,m,0).getDate();};
 
 /* ── RENDER ── */
-function renderAll(){
-  const rr=rows();renderStats(rr);renderEntries(rr);renderMonths();renderYears();chartsDirty=true;
+let charts={},chartsDirty=true;
+
+function init(){
+  const rows=computeRows();
+  const ms=mst(rows),ys=yst(rows);
+  renderStats(rows,ms,ys);
+  renderEntries(rows);
+  renderMonths(ms);
+  renderYears(ys);
 }
-function renderStats(rr){
-  if(!rr.length)return;
-  const last=rr[rr.length-1];
+
+function renderStats(rows,ms,ys){
+  const last=rows[rows.length-1];
   document.getElementById('s1').textContent=N(last.odo);
   document.getElementById('s1h').textContent='Stan na '+fd(last.date);
   document.getElementById('odb').textContent='⏲ '+N(last.odo)+' km';
   document.getElementById('s2').textContent=last.avg!=null?N(last.avg,1):'—';
-  const tYM=new Date().toISOString().slice(0,7),tYR=new Date().getFullYear().toString();
-  document.getElementById('s3').textContent=N(rr.filter(r=>r.ym===tYM&&r.km!=null).reduce((a,r)=>a+r.km,0));
+  const tYM=new Date().toISOString().slice(0,7);
+  const tYR=new Date().getFullYear().toString();
+  const curM=ms.find(m=>m.ym===tYM);
+  const curY=ys.find(y=>y.yr===tYR);
+  document.getElementById('s3').textContent=N(curM?curM.t:0);
   document.getElementById('s3h').textContent=fym(tYM);
-  document.getElementById('s4').textContent=N(rr.filter(r=>r.yr===tYR&&r.km!=null).reduce((a,r)=>a+r.km,0));
+  document.getElementById('s4').textContent=N(curY?curY.t:0);
   document.getElementById('s4h').textContent=tYR;
 }
-function renderEntries(rr){
-  const tb=document.getElementById('tb1');
-  if(!rr.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:48px;color:var(--mu)">Brak wpisów</td></tr>';return;}
-  tb.innerHTML=[...rr].reverse().map(r=>`
+
+function renderEntries(rows){
+  document.getElementById('tb1').innerHTML=[...rows].reverse().map(r=>`
     <tr>
       <td class="tdate">${fd(r.date)}</td>
       <td class="tmono">${N(r.odo)}</td>
-      <td>${r.km!=null?`<span class="badge">+ ${N(r.km)}</span>`:'<span class="tnull">—</span>'}</td>
       <td class="tmono">${r.avg!=null?N(r.avg,2):'<span class="tnull">—</span>'}</td>
-      <td class="tmono">${r.km!=null?N(r.sM):'<span class="tnull">—</span>'}</td>
-      <td class="tmono">${r.km!=null?N(r.sY):'<span class="tnull">—</span>'}</td>
-      <td><div class="aw"><button class="ab" onclick="openEdit(${r.id})">✏️</button><button class="ab del" onclick="askDel(${r.id})">🗑️</button></div></td>
+      <td class="tmono">${r.hasKm?N(r.sM):'<span class="tnull">—</span>'}</td>
+      <td class="tmono">${r.hasKm?N(r.sY):'<span class="tnull">—</span>'}</td>
     </tr>`).join('');
 }
-function renderMonths(){
-  const ms=mst(),tb=document.getElementById('tb2');
-  if(!ms.length){tb.innerHTML='';return;}
-  tb.innerHTML=ms.map((s,i)=>{const d=dim(s.ym);return`<tr class="${i%2===1?'even':''}">
-    <td class="tdate">${fym(s.ym)}</td><td class="tmono"><strong>${N(s.t)}</strong></td>
-    <td>${s.n}</td><td class="tmono">${N(s.t/s.n,1)}</td><td>${d}</td><td class="tmono">${N(s.t/d,1)}</td>
-  </tr>`;}).join('');
+
+function renderMonths(ms){
+  document.getElementById('tb2').innerHTML=ms.map((s,i)=>{
+    const d=dim(s.ym);
+    return`<tr class="${i%2===1?'even':''}">
+      <td class="tdate">${fym(s.ym)}</td>
+      <td class="tmono"><strong>${N(s.t)}</strong></td>
+      <td>${s.n}</td>
+      <td>${d}</td>
+      <td class="tmono">${N(s.t/d,1)}</td>
+    </tr>`;
+  }).join('');
   const tt=ms.reduce((a,s)=>a+s.t,0),tn=ms.reduce((a,s)=>a+s.n,0);
-  document.getElementById('tf2').innerHTML=`<td style="text-align:left">Łącznie</td><td>${N(tt)}</td><td>${tn}</td><td>${N(tt/tn,1)}</td><td>—</td><td>—</td>`;
+  const totalDays=ms.reduce((a,s)=>a+dim(s.ym),0);
+  document.getElementById('tf2').innerHTML=`<td style="text-align:left">Łącznie</td><td>${N(tt)}</td><td>${tn}</td><td>${totalDays}</td><td>${N(tt/totalDays,1)}</td>`;
 }
-function renderYears(){
-  const ys=yst(),tb=document.getElementById('tb3');
-  if(!ys.length){tb.innerHTML='';return;}
-  tb.innerHTML=ys.map(s=>{const d=Math.round((+new Date(s.l)- +new Date(s.f))/86400000)+1;return`<tr>
-    <td class="tdate"><strong>${s.yr}</strong></td><td class="tmono"><strong>${N(s.t)}</strong></td>
-    <td>${s.n}</td><td>${d} dni</td><td class="tmono">${N(s.t/d,1)}</td>
-  </tr>`;}).join('');
+
+function renderYears(ys){
+  document.getElementById('tb3').innerHTML=ys.map(s=>{
+    const d=Math.round((+new Date(s.l)- +new Date(s.f))/86400000)+1;
+    return`<tr>
+      <td class="tdate"><strong>${s.yr}</strong></td>
+      <td class="tmono"><strong>${N(s.t)}</strong></td>
+      <td>${s.n}</td>
+      <td>${d} dni</td>
+      <td class="tmono">${N(s.t/d,1)}</td>
+    </tr>`;
+  }).join('');
   const tt=ys.reduce((a,s)=>a+s.t,0),tn=ys.reduce((a,s)=>a+s.n,0);
   document.getElementById('tf3').innerHTML=`<td style="text-align:left">Łącznie</td><td>${N(tt)}</td><td>${tn}</td><td>—</td><td>—</td>`;
 }
@@ -476,59 +407,52 @@ function renderYears(){
 /* ── CHARTS ── */
 function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 function bo({yf,xr=0}={}){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+(yf?yf(c.parsed.y):c.parsed.y)}}},scales:{x:{ticks:{maxRotation:Math.abs(xr),font:{size:11}}},y:{ticks:{font:{size:11},callback:yf||(v=>v)}}}};}
+
 function renderCharts(){
-  if(!chartsDirty)return;chartsDirty=false;
-  const rr=rows(),ms=mst(),ys=yst();
+  if(!chartsDirty)return;
+  chartsDirty=false;
+  const rows=computeRows();
+  const ms=mst(rows),ys=yst(rows);
   const pal=['#1a56db','#0d9e6e','#f97316','#8b5cf6','#e11d48','#0891b2'];
-  dc('1');charts[1]=new Chart(document.getElementById('cc1'),{type:'line',data:{labels:rr.map(r=>fd(r.date)),datasets:[{data:rr.map(r=>r.odo),borderColor:'#1a56db',backgroundColor:'rgba(26,86,219,.07)',fill:true,tension:.35,pointRadius:rr.length>60?0:3,pointHoverRadius:6,borderWidth:2}]},options:bo({yf:v=>N(v)})});
-  dc('2');charts[2]=new Chart(document.getElementById('cc2'),{type:'bar',data:{labels:ms.map(s=>fym(s.ym).replace(' ','\n')),datasets:[{data:ms.map(s=>s.t),backgroundColor:ms.map((_,i)=>pal[i%pal.length]+'cc'),borderRadius:6,borderSkipped:false}]},options:bo({yf:v=>N(v)})});
-  dc('3');charts[3]=new Chart(document.getElementById('cc3'),{type:'bar',data:{labels:ys.map(s=>s.yr),datasets:[{data:ys.map(s=>s.t),backgroundColor:'#f97316cc',borderRadius:8,borderSkipped:false}]},options:bo({yf:v=>N(v)})});
-  const wa=rr.filter(r=>r.avg!=null);
-  dc('4');charts[4]=new Chart(document.getElementById('cc4'),{type:'line',data:{labels:wa.map(r=>fd(r.date)),datasets:[{data:wa.map(r=>+r.avg.toFixed(2)),borderColor:'#0d9e6e',backgroundColor:'rgba(13,158,110,.07)',fill:true,tension:.4,pointRadius:wa.length>60?0:2,pointHoverRadius:5,borderWidth:2}]},options:bo({yf:v=>v.toFixed(1)})});
-  const kv=rr.filter(r=>r.km!=null).map(r=>r.km),bins=[0,25,50,100,150,200,300,500,750,1000,2000];
-  dc('5');charts[5]=new Chart(document.getElementById('cc5'),{type:'bar',data:{labels:bins.slice(0,-1).map((b,i)=>`${b}–${bins[i+1]}`),datasets:[{data:bins.slice(0,-1).map((b,i)=>kv.filter(v=>v>=b&&v<bins[i+1]).length),backgroundColor:'rgba(139,92,246,.7)',borderRadius:5,borderSkipped:false}]},options:bo({xr:-35})});
+
+  dc(1);charts[1]=new Chart(document.getElementById('cc1'),{type:'line',data:{
+    labels:rows.map(r=>fd(r.date)),
+    datasets:[{data:rows.map(r=>r.odo),borderColor:'#1a56db',backgroundColor:'rgba(26,86,219,.07)',fill:true,tension:.35,pointRadius:rows.length>60?0:3,pointHoverRadius:6,borderWidth:2}]},
+    options:bo({yf:v=>N(v)})});
+
+  dc(2);charts[2]=new Chart(document.getElementById('cc2'),{type:'bar',data:{
+    labels:ms.map(s=>fym(s.ym).replace(' ','\n')),
+    datasets:[{data:ms.map(s=>s.t),backgroundColor:ms.map((_,i)=>pal[i%pal.length]+'cc'),borderRadius:6,borderSkipped:false}]},
+    options:bo({yf:v=>N(v)})});
+
+  dc(3);charts[3]=new Chart(document.getElementById('cc3'),{type:'bar',data:{
+    labels:ys.map(s=>s.yr),
+    datasets:[{data:ys.map(s=>s.t),backgroundColor:'#f97316cc',borderRadius:8,borderSkipped:false}]},
+    options:bo({yf:v=>N(v)})});
+
+  const wa=rows.filter(r=>r.avg!=null);
+  dc(4);charts[4]=new Chart(document.getElementById('cc4'),{type:'line',data:{
+    labels:wa.map(r=>fd(r.date)),
+    datasets:[{data:wa.map(r=>+r.avg.toFixed(2)),borderColor:'#0d9e6e',backgroundColor:'rgba(13,158,110,.07)',fill:true,tension:.4,pointRadius:wa.length>60?0:2,pointHoverRadius:5,borderWidth:2}]},
+    options:bo({yf:v=>v.toFixed(1)})});
 }
 
 /* ── TABS ── */
 function goTab(n,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
-  btn.classList.add('on');document.getElementById('tab-'+n).classList.add('on');
+  btn.classList.add('on');
+  document.getElementById('tab-'+n).classList.add('on');
   if(n==='c')setTimeout(renderCharts,50);
 }
 
-/* ── MODAL ── */
-function openAdd(){editId=null;document.getElementById('mt').textContent='Dodaj nowy wpis';document.getElementById('fd').value=new Date().toISOString().slice(0,10);document.getElementById('fo').value='';openOv('ovf');setTimeout(()=>document.getElementById('fo').focus(),120);}
-function openEdit(id){editId=id;const e=entries.find(x=>x.id===id);document.getElementById('mt').textContent='Edytuj wpis';document.getElementById('fd').value=e.date;document.getElementById('fo').value=e.odometer;openOv('ovf');}
-function closeM(){closeOv('ovf');}
-async function saveE(){
-  const date=document.getElementById('fd').value,odo=parseInt(document.getElementById('fo').value,10);
-  if(!date||isNaN(odo)||odo<0){toast('⚠️ Podaj poprawną datę i przebieg!');return;}
-  let msg;
-  if(editId!=null){const i=entries.findIndex(e=>e.id===editId);entries[i]={id:editId,date,odometer:odo};msg='Edytuj wpis '+fd(date);toast('✅ Wpis zaktualizowany');}
-  else{entries.push({id:nextId++,date,odometer:odo});msg='Dodaj wpis '+fd(date);toast('✅ Wpis dodany');}
-  closeM();renderAll();await saveGH(msg);
-}
-
-/* ── DELETE ── */
-function askDel(id){delId=id;openOv('ovd');document.getElementById('dyes').onclick=async()=>{const e=entries.find(x=>x.id===delId);const msg='Usuń wpis '+(e?fd(e.date):'');entries=entries.filter(x=>x.id!==delId);closeD();renderAll();toast('🗑️ Wpis usunięty');await saveGH(msg);};}
-function closeD(){closeOv('ovd');}
-
-/* ── OV ── */
-function openOv(id){document.getElementById(id).classList.add('on');}
-function closeOv(id){document.getElementById(id).classList.remove('on');}
-['ovf','ovd'].forEach(id=>{document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)closeOv(id);});});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM();closeD();}if(e.key==='Enter'&&document.getElementById('ovf').classList.contains('on'))saveE();});
-
-/* ── TOAST ── */
-let _tt;
-function toast(msg,isErr=false){const t=document.getElementById('toast');t.textContent=msg;t.className='toast on'+(isErr?' et':'');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),isErr?4500:2600);}
-
 /* ── INIT ── */
 window.addEventListener('load',()=>{
-  if(!configured){show('ss');return;}
-  if(sessionStorage.getItem('ok')==='1'){show('slo');loadGH();}
-  else show('sl');
+  if(sessionStorage.getItem('ok')==='1'){
+    document.getElementById('sl').style.display='none';
+    document.getElementById('sa').style.display='block';
+    init();
+  }
 });
 </script>
 </body>
