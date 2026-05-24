@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dacia · Dziennik Przebiegu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #eef1f7;
+      --surface: #ffffff;
+      --surface2: #f7f9fc;
+      --border: #dde3ee;
+      --primary: #1a56db;
+      --primary-light: #eff4ff;
+      --primary-dark: #1a3a8f;
+      --accent: #f97316;
+      --accent-light: #fff7ed;
+      --success: #0d9e6e;
+      --success-light: #ecfdf5;
+      --danger: #dc2626;
+      --danger-light: #fff1f1;
+      --text: #0d1526;
+      --text-2: #3d5280;
+      --text-muted: #8fa3cc;
+      --shadow-xs: 0 1px 3px rgba(20,40,100,.07);
+      --shadow-sm: 0 2px 8px rgba(20,40,100,.08);
+      --shadow: 0 6px 24px rgba(20,40,100,.10);
+      --shadow-lg: 0 20px 60px rgba(20,40,100,.14);
+      --r: 12px;
+      --r-sm: 8px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.55}
+
+    /* ── LOGIN ─────────────────────────────────── */
+    #login-screen{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(145deg,#0f2460 0%,#1a56db 55%,#2d7ef7 100%);
+      padding:20px;
+    }
+    .login-card{
+      background:#fff;border-radius:20px;padding:52px 44px 44px;
+      width:100%;max-width:420px;box-shadow:var(--shadow-lg);text-align:center;
+      animation:slideUp .35s ease;
+    }
+    @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    .login-emblem{
+      width:72px;height:72px;border-radius:20px;
+      background:linear-gradient(135deg,var(--primary-light),#c7d9ff);
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 22px;font-size:34px;box-shadow:0 4px 14px rgba(26,86,219,.18);
+    }
+    .login-title{font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:6px}
+    .login-sub{color:var(--text-2);font-size:14px;margin-bottom:34px;font-weight:400}
+    .login-input-wrap{position:relative;margin-bottom:14px}
+    .login-input{
+      width:100%;padding:14px 48px 14px 16px;border:2px solid var(--border);
+      border-radius:var(--r-sm);font-size:15px;font-family:inherit;outline:none;
+      transition:border-color .2s,background .2s;background:var(--surface2);color:var(--text);
+    }
+    .login-input:focus{border-color:var(--primary);background:#fff}
+    .login-input.shake{animation:shake .3s}
+    @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+    .toggle-pw{
+      position:absolute;right:13px;top:50%;transform:translateY(-50%);
+      background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;padding:4px;
+      transition:color .2s;
+    }
+    .toggle-pw:hover{color:var(--primary)}
+    .login-btn{
+      width:100%;padding:14px;background:var(--primary);color:#fff;border:none;
+      border-radius:var(--r-sm);font-size:15px;font-weight:700;font-family:inherit;
+      cursor:pointer;transition:background .2s,transform .1s;letter-spacing:.01em;
+    }
+    .login-btn:hover{background:var(--primary-dark)}
+    .login-btn:active{transform:scale(.98)}
+    .login-err{color:var(--danger);font-size:13px;margin-top:12px;display:none;font-weight:500}
+
+    /* ── APP LAYOUT ───────────────────────────── */
+    #app{display:none;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .topbar{
+      background:#fff;border-bottom:1px solid var(--border);padding:0 28px;
+      display:flex;align-items:center;justify-content:space-between;height:62px;
+      position:sticky;top:0;z-index:100;box-shadow:var(--shadow-xs);
+    }
+    .topbar-brand{
+      display:flex;align-items:center;gap:10px;
+      font-weight:700;font-size:17px;color:var(--text);letter-spacing:-.01em;
+    }
+    .topbar-brand em{color:var(--primary);font-style:normal}
+    .topbar-right{display:flex;align-items:center;gap:10px}
+    .odo-badge{
+      font-family:'DM Mono',monospace;font-size:13px;font-weight:500;
+      background:var(--primary-light);color:var(--primary);
+      padding:6px 14px;border-radius:30px;letter-spacing:.02em;
+    }
+    .logout-btn{
+      background:none;border:1.5px solid var(--border);padding:6px 14px;border-radius:30px;
+      cursor:pointer;color:var(--text-2);font-family:inherit;font-size:13px;font-weight:500;
+      transition:all .2s;
+    }
+    .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+    .container{max-width:1240px;margin:0 auto;padding:28px 20px}
+
+    /* ── STAT CARDS ───────────────────────────── */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
+    @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.stats{grid-template-columns:1fr}}
+    .stat-card{
+      background:#fff;border-radius:var(--r);padding:20px 22px;
+      box-shadow:var(--shadow-xs);border:1px solid var(--border);
+      position:relative;overflow:hidden;transition:box-shadow .2s;
+    }
+    .stat-card:hover{box-shadow:var(--shadow-sm)}
+    .stat-stripe{
+      position:absolute;left:0;top:0;width:4px;height:100%;
+      background:var(--stripe,var(--primary));border-radius:4px 0 0 4px;
+    }
+    .stat-label{
+      font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+      color:var(--text-muted);margin-bottom:10px;
+    }
+    .stat-val{
+      font-family:'DM Mono',monospace;font-size:30px;font-weight:500;
+      color:var(--text);line-height:1;margin-bottom:6px;letter-spacing:-.02em;
+    }
+    .stat-hint{font-size:12px;color:var(--text-2)}
+    .stat-ico{position:absolute;right:16px;top:14px;font-size:26px;opacity:.14}
+
+    /* ── TABS ─────────────────────────────────── */
+    .tabs{
+      display:flex;gap:3px;background:#fff;border:1px solid var(--border);
+      border-radius:var(--r);padding:4px;margin-bottom:20px;box-shadow:var(--shadow-xs);
+    }
+    .tab{
+      flex:1;padding:10px 12px;border:none;background:none;border-radius:var(--r-sm);
+      cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:500;
+      color:var(--text-2);transition:all .18s;white-space:nowrap;
+    }
+    .tab.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(26,86,219,.3)}
+    .tab:hover:not(.active){background:var(--bg);color:var(--text)}
+    .tab-pane{display:none}
+    .tab-pane.active{display:block}
+
+    /* ── CARD ─────────────────────────────────── */
+    .card{
+      background:#fff;border-radius:var(--r);border:1px solid var(--border);
+      box-shadow:var(--shadow-xs);overflow:hidden;
+    }
+    .card-head{
+      padding:16px 22px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    }
+    .card-title{font-size:15px;font-weight:600;color:var(--text)}
+    .add-btn{
+      display:flex;align-items:center;gap:7px;padding:8px 18px;
+      background:var(--primary);color:#fff;border:none;border-radius:var(--r-sm);
+      cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;
+      transition:background .18s,transform .1s;
+    }
+    .add-btn:hover{background:var(--primary-dark)}
+    .add-btn:active{transform:scale(.97)}
+
+    /* ── TABLE ────────────────────────────────── */
+    .tbl-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:var(--surface2)}
+    th{
+      padding:10px 18px;text-align:right;font-size:11px;font-weight:700;
+      text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);
+      white-space:nowrap;border-bottom:2px solid var(--border);
+    }
+    th:first-child{text-align:left}
+    td{padding:10px 18px;text-align:right;border-bottom:1px solid #f0f3f8;font-size:13.5px}
+    td:first-child{text-align:left}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr{transition:background .12s}
+    tbody tr:hover{background:#f3f7ff}
+    .td-date{font-weight:600;color:var(--text);font-size:13.5px}
+    .td-mono{font-family:'DM Mono',monospace;font-size:13px}
+    .td-null{color:var(--text-muted);font-style:italic;font-size:12px}
+    .badge{
+      display:inline-block;padding:2px 10px;border-radius:20px;
+      font-size:12px;font-weight:600;font-family:'DM Mono',monospace;
+    }
+    .badge-b{background:var(--primary-light);color:var(--primary)}
+    .badge-g{background:var(--success-light);color:var(--success)}
+    .badge-o{background:var(--accent-light);color:var(--accent)}
+    .act-wrap{display:flex;gap:4px;justify-content:flex-end}
+    .act-btn{
+      background:none;border:none;cursor:pointer;padding:5px 8px;
+      border-radius:6px;font-size:14px;transition:background .14s;line-height:1;
+    }
+    .act-btn:hover{background:var(--bg)}
+    .act-btn.del:hover{background:var(--danger-light)}
+    .tfoot-row td{background:var(--primary-light);font-weight:700;color:var(--primary);font-family:'DM Mono',monospace}
+
+    /* ── MODAL ────────────────────────────────── */
+    .overlay{
+      position:fixed;inset:0;background:rgba(13,21,38,.5);
+      display:flex;align-items:center;justify-content:center;
+      z-index:1000;padding:20px;backdrop-filter:blur(4px);
+      opacity:0;pointer-events:none;transition:opacity .2s;
+    }
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{
+      background:#fff;border-radius:18px;padding:36px;width:100%;max-width:440px;
+      box-shadow:var(--shadow-lg);transform:translateY(18px);transition:transform .25s;
+    }
+    .overlay.open .modal{transform:none}
+    .modal-title{font-size:19px;font-weight:700;margin-bottom:26px;color:var(--text)}
+    .form-g{margin-bottom:18px}
+    .form-lbl{display:block;font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+    .form-inp{
+      width:100%;padding:12px 15px;border:2px solid var(--border);border-radius:var(--r-sm);
+      font-size:15px;font-family:'DM Mono',monospace;outline:none;
+      transition:border-color .2s;background:var(--surface2);color:var(--text);
+    }
+    .form-inp:focus{border-color:var(--primary);background:#fff}
+    .modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:26px}
+    .btn-sec{
+      padding:10px 22px;background:var(--bg);color:var(--text-2);
+      border:1.5px solid var(--border);border-radius:var(--r-sm);
+      cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;transition:all .18s;
+    }
+    .btn-sec:hover{background:var(--border)}
+    .btn-pri{
+      padding:10px 26px;background:var(--primary);color:#fff;border:none;
+      border-radius:var(--r-sm);cursor:pointer;font-family:inherit;font-size:14px;
+      font-weight:700;transition:background .18s;
+    }
+    .btn-pri:hover{background:var(--primary-dark)}
+    .btn-danger{
+      padding:10px 26px;background:var(--danger);color:#fff;border:none;
+      border-radius:var(--r-sm);cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;
+    }
+    .btn-danger:hover{background:#b91c1c}
+
+    /* ── CONFIRM ──────────────────────────────── */
+    .confirm-box{
+      background:#fff;border-radius:18px;padding:32px;max-width:360px;
+      width:100%;box-shadow:var(--shadow-lg);text-align:center;
+    }
+    .confirm-ico{font-size:42px;margin-bottom:14px}
+    .confirm-title{font-size:18px;font-weight:700;margin-bottom:8px}
+    .confirm-msg{font-size:13px;color:var(--text-2);margin-bottom:22px;line-height:1.6}
+    .confirm-btns{display:flex;gap:10px;justify-content:center}
+
+    /* ── CHARTS ───────────────────────────────── */
+    .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:720px){.charts-grid{grid-template-columns:1fr}}
+    .chart-card{
+      background:#fff;border-radius:var(--r);border:1px solid var(--border);
+      box-shadow:var(--shadow-xs);padding:22px;
+    }
+    .chart-full{grid-column:1 / -1}
+    .chart-title{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+    .chart-wrap{position:relative;height:240px}
+
+    /* ── TOAST ────────────────────────────────── */
+    .toast{
+      position:fixed;bottom:24px;right:24px;background:#0d1526;color:#fff;
+      padding:12px 22px;border-radius:var(--r-sm);font-size:13px;font-weight:600;
+      z-index:9999;transform:translateY(70px);opacity:0;transition:transform .28s,opacity .28s;
+      box-shadow:var(--shadow);
+    }
+    .toast.show{transform:none;opacity:1}
+
+    /* ── EMPTY ────────────────────────────────── */
+    .empty{text-align:center;padding:64px 20px;color:var(--text-muted)}
+    .empty-ico{font-size:52px;margin-bottom:14px;opacity:.4}
+    .empty-txt{font-size:15px}
+
+    /* ── MONTH TABLE ──────────────────────────── */
+    .month-even{background:#fafbfd}
+    .month-last td{background:var(--primary-light);color:var(--primary);font-weight:700;font-family:'DM Mono',monospace}
+
+    /* ── RESPONSIVE ───────────────────────────── */
+    @media(max-width:600px){
+      .topbar{padding:0 16px}
+      .container{padding:16px 12px}
+      th,td{padding:9px 10px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-emblem">🚗</div>
+    <div class="login-title">Dacia · Dziennik</div>
+    <div class="login-sub">Dziennik przebiegu pojazdu — dostęp prywatny</div>
+    <div class="login-input-wrap">
+      <input type="password" id="pw-input" class="login-input" placeholder="Hasło dostępu" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="toggle-pw" onclick="togglePw()" title="Pokaż/ukryj hasło">👁</button>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Zaloguj się →</button>
+    <div class="login-err" id="login-err">Nieprawidłowe hasło. Spróbuj ponownie.</div>
+  </div>
+</div>
+
+<!-- ══════════ APP ══════════ -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">🚗 Dacia &nbsp;<em>·</em>&nbsp; <span>Dziennik przebiegu</span></div>
+    <div class="topbar-right">
+      <div class="odo-badge" id="odo-badge">— km</div>
+      <button class="logout-btn" onclick="doLogout()">Wyloguj</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-stripe" style="--stripe:#1a56db"></div>
+        <div class="stat-ico">🔢</div>
+        <div class="stat-label">Aktualny przebieg</div>
+        <div class="stat-val" id="s-odo">—</div>
+        <div class="stat-hint" id="s-odo-h">km</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-stripe" style="--stripe:#0d9e6e"></div>
+        <div class="stat-ico">📅</div>
+        <div class="stat-label">Średnia / dzień</div>
+        <div class="stat-val" id="s-avg">—</div>
+        <div class="stat-hint">km / dzień (od pierwszego wpisu)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-stripe" style="--stripe:#f97316"></div>
+        <div class="stat-ico">📆</div>
+        <div class="stat-label">Ten miesiąc</div>
+        <div class="stat-val" id="s-mon">—</div>
+        <div class="stat-hint" id="s-mon-h">km</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-stripe" style="--stripe:#8b5cf6"></div>
+        <div class="stat-ico">🗓️</div>
+        <div class="stat-label">Ten rok</div>
+        <div class="stat-val" id="s-yr">—</div>
+        <div class="stat-hint" id="s-yr-h">km</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('wpisy',this)">📋 Wpisy</button>
+      <button class="tab" onclick="switchTab('miesiace',this)">📆 Miesięcznie</button>
+      <button class="tab" onclick="switchTab('lata',this)">🗓️ Rocznie</button>
+      <button class="tab" onclick="switchTab('wykresy',this)">📊 Wykresy</button>
+    </div>
+
+    <!-- ─── WPISY ─── -->
+    <div class="tab-pane active" id="tab-wpisy">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Wszystkie wpisy przebiegu</span>
+          <button class="add-btn" onclick="openAdd()">＋ Dodaj wpis</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Przebieg (km)</th>
+                <th>Km / wpis</th>
+                <th>Śr. km / dzień</th>
+                <th>Σ miesiąc</th>
+                <th>Σ rok</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="t-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── MIESIĘCZNIE ─── -->
+    <div class="tab-pane" id="tab-miesiace">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Podsumowanie miesięczne</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Miesiąc</th>
+                <th>Łącznie (km)</th>
+                <th>Wpisów</th>
+                <th>Śr. km / wpis</th>
+                <th>Dni w mies.</th>
+                <th>Śr. km / dzień</th>
+              </tr>
+            </thead>
+            <tbody id="m-body"></tbody>
+            <tfoot><tr id="m-foot"></tr></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── LATA ─── -->
+    <div class="tab-pane" id="tab-lata">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Podsumowanie roczne</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rok</th>
+                <th>Łącznie (km)</th>
+                <th>Wpisów</th>
+                <th>Dni aktywnych</th>
+                <th>Śr. km / dzień</th>
+              </tr>
+            </thead>
+            <tbody id="y-body"></tbody>
+            <tfoot><tr id="y-foot"></tr></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── WYKRESY ─── -->
+    <div class="tab-pane" id="tab-wykresy">
+      <div class="charts-grid">
+        <div class="chart-card chart-full">
+          <div class="chart-title">Przebieg całkowity w czasie</div>
+          <div class="chart-wrap"><canvas id="ch-total"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Km według miesięcy</div>
+          <div class="chart-wrap"><canvas id="ch-mon"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Km według lat</div>
+          <div class="chart-wrap"><canvas id="ch-yr"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Trend — średnia km / dzień</div>
+          <div class="chart-wrap"><canvas id="ch-avg"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Rozkład km / wpis</div>
+          <div class="chart-wrap"><canvas id="ch-hist"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /app -->
+
+<!-- ══ MODAL ADD/EDIT ══ -->
+<div class="overlay" id="ov-form">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Dodaj wpis</div>
+    <div class="form-g">
+      <label class="form-lbl" for="f-date">Data pomiaru</label>
+      <input type="date" id="f-date" class="form-inp">
+    </div>
+    <div class="form-g">
+      <label class="form-lbl" for="f-odo">Przebieg (km)</label>
+      <input type="number" id="f-odo" class="form-inp" min="0" step="1" placeholder="np. 100 000">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sec" onclick="closeModal()">Anuluj</button>
+      <button class="btn-pri" onclick="saveEntry()">Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL CONFIRM DELETE ══ -->
+<div class="overlay" id="ov-del">
+  <div class="confirm-box">
+    <div class="confirm-ico">🗑️</div>
+    <div class="confirm-title">Usunąć wpis?</div>
+    <div class="confirm-msg">Tej operacji nie można cofnąć.<br>Wpis zostanie trwale usunięty z dziennika.</div>
+    <div class="confirm-btns">
+      <button class="btn-sec" onclick="closeDel()">Anuluj</button>
+      <button class="btn-danger" id="del-yes">Usuń</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════
+   CONSTANTS & INITIAL DATA
+═══════════════════════════════ */
+const PWD_HASH = '48418321602707f5e55e93f56e41707c59439ff8420e1435c75b8ef9f067f22a';
+const SK = 'dacia_log';
+const NK = 'dacia_nid';
+
+const SEED = [
+  ['2026-01-19',94368],['2026-01-20',94369],['2026-01-21',94411],['2026-01-22',94423],
+  ['2026-01-23',95013],['2026-01-25',95537],['2026-01-26',95586],['2026-01-27',95621],
+  ['2026-01-28',95687],['2026-01-29',95748],['2026-01-31',95789],['2026-02-01',96082],
+  ['2026-02-02',96126],['2026-02-03',96162],['2026-02-04',96298],['2026-02-05',96427],
+  ['2026-02-06',96469],['2026-02-07',96531],['2026-02-09',96606],['2026-02-18',96887],
+  ['2026-02-20',96962],['2026-02-21',97010],['2026-02-26',97275],['2026-02-28',97456],
+  ['2026-03-01',97603],['2026-03-03',97672],['2026-03-06',97807],['2026-03-07',97858],
+  ['2026-03-09',97912],['2026-03-10',98061],['2026-03-11',98133],['2026-03-12',98202],
+  ['2026-03-16',98266],['2026-03-17',98303],['2026-03-20',98562],['2026-03-21',98638],
+  ['2026-03-22',98766],['2026-03-24',98795],['2026-03-25',98886],['2026-03-26',98953],
+  ['2026-03-29',99243],['2026-03-31',99341],['2026-04-02',99466],['2026-04-03',99587],
+  ['2026-04-05',99732],['2026-04-07',99858],['2026-04-09',99971],['2026-04-10',100046],
+  ['2026-04-11',100087],['2026-04-14',100288],['2026-04-27',101180],['2026-04-30',101347],
+  ['2026-05-06',102677],['2026-05-10',103714],['2026-05-12',104388],['2026-05-13',104484]
+];
+
+/* ═══════════════════════════════
+   STATE
+═══════════════════════════════ */
+let entries = [];
+let nextId = 1;
+let editingId = null;
+let pendingDelId = null;
+let charts = {};
+let chartsDrawn = false;
+
+/* ═══════════════════════════════
+   AUTH
+═══════════════════════════════ */
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const pw = document.getElementById('pw-input').value;
+  const h = await sha256(pw);
+  if (h === PWD_HASH) {
+    sessionStorage.setItem('dacia_ok','1');
+    showApp();
+  } else {
+    const inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    document.getElementById('login-err').style.display = 'block';
+    setTimeout(() => {
+      inp.classList.remove('shake');
+      document.getElementById('login-err').style.display = 'none';
+    }, 2800);
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('dacia_ok');
+  location.reload();
+}
+
+function togglePw() {
+  const i = document.getElementById('pw-input');
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+
+window.addEventListener('load', () => {
+  if (sessionStorage.getItem('dacia_ok') === '1') showApp();
+});
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp();
+}
+
+/* ═══════════════════════════════
+   DATA
+═══════════════════════════════ */
+function loadData() {
+  const raw = localStorage.getItem(SK);
+  if (raw) {
+    entries = JSON.parse(raw);
+    nextId = parseInt(localStorage.getItem(NK) || '1000');
+  } else {
+    let id = 1;
+    entries = SEED.map(([date, odometer]) => ({ id: id++, date, odometer }));
+    nextId = id;
+    persist();
+  }
+}
+
+function persist() {
+  localStorage.setItem(SK, JSON.stringify(entries));
+  localStorage.setItem(NK, String(nextId));
+}
+
+/* ═══════════════════════════════
+   COMPUTE
+═══════════════════════════════ */
+function computeRows() {
+  if (!entries.length) return [];
+  const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date));
+  const rows = [];
+  let cumKm = 0;
+  const firstKmDate = sorted.length > 1 ? +new Date(sorted[1].date) : null;
+  const mRun = {}, yRun = {};
+
+  for (let i = 0; i < sorted.length; i++) {
+    const e = sorted[i];
+    const ym = e.date.slice(0, 7);
+    const yr = e.date.slice(0, 4);
+    let km = null, avg = null, sM = 0, sY = 0;
+    if (i > 0) {
+      km = e.odometer - sorted[i - 1].odometer;
+      cumKm += km;
+      const days = Math.round((+new Date(e.date) - firstKmDate) / 86400000) + 1;
+      avg = cumKm / days;
+      mRun[ym] = (mRun[ym] || 0) + km;
+      yRun[yr] = (yRun[yr] || 0) + km;
+      sM = mRun[ym];
+      sY = yRun[yr];
+    }
+    rows.push({ id: e.id, date: e.date, odo: e.odometer, km, avg, ym, yr, sM, sY });
+  }
+  return rows;
+}
+
+function monthStats() {
+  const m = {};
+  for (const r of computeRows().filter(r => r.km != null)) {
+    if (!m[r.ym]) m[r.ym] = { ym: r.ym, total: 0, n: 0 };
+    m[r.ym].total += r.km;
+    m[r.ym].n++;
+  }
+  return Object.values(m).sort((a, b) => a.ym.localeCompare(b.ym));
+}
+
+function yearStats() {
+  const y = {};
+  for (const r of computeRows().filter(r => r.km != null)) {
+    if (!y[r.yr]) y[r.yr] = { yr: r.yr, total: 0, n: 0, first: r.date, last: r.date };
+    y[r.yr].total += r.km;
+    y[r.yr].n++;
+    if (r.date < y[r.yr].first) y[r.yr].first = r.date;
+    if (r.date > y[r.yr].last)  y[r.yr].last = r.date;
+  }
+  return Object.values(y).sort((a, b) => a.yr.localeCompare(b.yr));
+}
+
+/* ═══════════════════════════════
+   FORMAT HELPERS
+═══════════════════════════════ */
+const N = (v, d = 0) => v == null || isNaN(v) ? '—'
+  : v.toLocaleString('pl-PL', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+function fmtDate(s) {
+  const [y, m, d] = s.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+const MONTHS_PL = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec',
+                   'Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+
+function fmtYM(ym) {
+  const [y, m] = ym.split('-');
+  return `${MONTHS_PL[+m - 1]} ${y}`;
+}
+
+function daysInM(ym) {
+  const [y, m] = ym.split('-').map(Number);
+  return new Date(y, m, 0).getDate();
+}
+
+/* ═══════════════════════════════
+   RENDER
+═══════════════════════════════ */
+function renderAll() {
+  const rows = computeRows();
+  renderStats(rows);
+  renderEntries(rows);
+  renderMonths();
+  renderYears();
+  chartsDrawn = false; // mark stale
+}
+
+function renderStats(rows) {
+  if (!rows.length) return;
+  const last = rows[rows.length - 1];
+  document.getElementById('s-odo').textContent   = N(last.odo);
+  document.getElementById('s-odo-h').textContent = `Stan na ${fmtDate(last.date)}`;
+  document.getElementById('odo-badge').textContent = `⏲ ${N(last.odo)} km`;
+  document.getElementById('s-avg').textContent   = last.avg != null ? N(last.avg, 1) : '—';
+
+  const todayYM = new Date().toISOString().slice(0, 7);
+  const todayYR = new Date().getFullYear().toString();
+
+  const monKm = rows.filter(r => r.ym === todayYM && r.km != null).reduce((a, r) => a + r.km, 0);
+  const yrKm  = rows.filter(r => r.yr === todayYR && r.km != null).reduce((a, r) => a + r.km, 0);
+
+  document.getElementById('s-mon').textContent = N(monKm);
+  document.getElementById('s-mon-h').textContent = fmtYM(todayYM);
+  document.getElementById('s-yr').textContent = N(yrKm);
+  document.getElementById('s-yr-h').textContent = todayYR;
+}
+
+function renderEntries(rows) {
+  const tb = document.getElementById('t-body');
+  if (!rows.length) {
+    tb.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-ico">📭</div><div class="empty-txt">Brak wpisów — kliknij „Dodaj wpis"</div></div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = [...rows].reverse().map(r => `
+    <tr>
+      <td class="td-date">${fmtDate(r.date)}</td>
+      <td class="td-mono">${N(r.odo)}</td>
+      <td>${r.km != null ? `<span class="badge badge-b">+ ${N(r.km)}</span>` : '<span class="td-null">—</span>'}</td>
+      <td class="td-mono">${r.avg != null ? N(r.avg, 2) : '<span class="td-null">—</span>'}</td>
+      <td class="td-mono">${r.km != null ? N(r.sM) : '<span class="td-null">—</span>'}</td>
+      <td class="td-mono">${r.km != null ? N(r.sY) : '<span class="td-null">—</span>'}</td>
+      <td>
+        <div class="act-wrap">
+          <button class="act-btn" onclick="openEdit(${r.id})" title="Edytuj">✏️</button>
+          <button class="act-btn del" onclick="askDel(${r.id})" title="Usuń">🗑️</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function renderMonths() {
+  const ms = monthStats();
+  const tb = document.getElementById('m-body');
+  if (!ms.length) { tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">Brak danych</td></tr>'; return; }
+
+  tb.innerHTML = ms.map((s, i) => {
+    const dim = daysInM(s.ym);
+    return `<tr class="${i % 2 === 1 ? 'month-even' : ''}">
+      <td class="td-date">${fmtYM(s.ym)}</td>
+      <td class="td-mono"><strong>${N(s.total)}</strong></td>
+      <td>${s.n}</td>
+      <td class="td-mono">${N(s.total / s.n, 1)}</td>
+      <td>${dim}</td>
+      <td class="td-mono">${N(s.total / dim, 1)}</td>
+    </tr>`;
+  }).join('');
+
+  const total = ms.reduce((a, s) => a + s.total, 0);
+  const totalN = ms.reduce((a, s) => a + s.n, 0);
+  document.getElementById('m-foot').innerHTML =
+    `<td class="tfoot-row" style="text-align:left;font-weight:700">Łącznie</td>
+     <td class="tfoot-row">${N(total)}</td>
+     <td class="tfoot-row">${totalN}</td>
+     <td class="tfoot-row">${N(total / totalN, 1)}</td>
+     <td class="tfoot-row">—</td>
+     <td class="tfoot-row">—</td>`;
+}
+
+function renderYears() {
+  const ys = yearStats();
+  const tb = document.getElementById('y-body');
+  if (!ys.length) { tb.innerHTML = ''; return; }
+
+  tb.innerHTML = ys.map(s => {
+    const days = Math.round((+new Date(s.last) - +new Date(s.first)) / 86400000) + 1;
+    return `<tr>
+      <td class="td-date"><strong>${s.yr}</strong></td>
+      <td class="td-mono"><strong>${N(s.total)}</strong></td>
+      <td>${s.n}</td>
+      <td>${days} dni</td>
+      <td class="td-mono">${N(s.total / days, 1)}</td>
+    </tr>`;
+  }).join('');
+
+  const total = ys.reduce((a, s) => a + s.total, 0);
+  const totalN = ys.reduce((a, s) => a + s.n, 0);
+  document.getElementById('y-foot').innerHTML =
+    `<td class="tfoot-row" style="text-align:left">Łącznie</td>
+     <td class="tfoot-row">${N(total)}</td>
+     <td class="tfoot-row">${totalN}</td>
+     <td class="tfoot-row">—</td>
+     <td class="tfoot-row">—</td>`;
+}
+
+/* ═══════════════════════════════
+   CHARTS
+═══════════════════════════════ */
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function renderCharts() {
+  if (chartsDrawn) return;
+  chartsDrawn = true;
+
+  const rows = computeRows();
+  const ms = monthStats();
+  const ys = yearStats();
+  const palette = ['#1a56db','#0d9e6e','#f97316','#8b5cf6','#e11d48','#0891b2'];
+
+  /* — Total odometer line — */
+  destroyChart('total');
+  charts.total = new Chart(document.getElementById('ch-total'), {
+    type: 'line',
+    data: {
+      labels: rows.map(r => fmtDate(r.date)),
+      datasets: [{
+        data: rows.map(r => r.odo),
+        borderColor: '#1a56db',
+        backgroundColor: 'rgba(26,86,219,.07)',
+        fill: true, tension: .35,
+        pointRadius: rows.length > 60 ? 0 : 3,
+        pointHoverRadius: 6,
+        borderWidth: 2
+      }]
+    },
+    options: baseOpts({ yFmt: v => N(v) })
+  });
+
+  /* — Monthly bar — */
+  destroyChart('mon');
+  charts.mon = new Chart(document.getElementById('ch-mon'), {
+    type: 'bar',
+    data: {
+      labels: ms.map(s => fmtYM(s.ym).replace(' ', '\n')),
+      datasets: [{
+        data: ms.map(s => s.total),
+        backgroundColor: ms.map((_, i) => palette[i % palette.length] + 'cc'),
+        borderRadius: 6, borderSkipped: false
+      }]
+    },
+    options: baseOpts({ yFmt: v => N(v), legend: false })
+  });
+
+  /* — Yearly bar — */
+  destroyChart('yr');
+  charts.yr = new Chart(document.getElementById('ch-yr'), {
+    type: 'bar',
+    data: {
+      labels: ys.map(s => s.yr),
+      datasets: [{
+        data: ys.map(s => s.total),
+        backgroundColor: '#f97316cc',
+        borderRadius: 8, borderSkipped: false
+      }]
+    },
+    options: baseOpts({ yFmt: v => N(v), legend: false })
+  });
+
+  /* — Avg/day trend — */
+  const withAvg = rows.filter(r => r.avg != null);
+  destroyChart('avg');
+  charts.avg = new Chart(document.getElementById('ch-avg'), {
+    type: 'line',
+    data: {
+      labels: withAvg.map(r => fmtDate(r.date)),
+      datasets: [{
+        data: withAvg.map(r => +r.avg.toFixed(2)),
+        borderColor: '#0d9e6e',
+        backgroundColor: 'rgba(13,158,110,.07)',
+        fill: true, tension: .4,
+        pointRadius: withAvg.length > 60 ? 0 : 2,
+        pointHoverRadius: 5, borderWidth: 2
+      }]
+    },
+    options: baseOpts({ yFmt: v => v.toFixed(1) })
+  });
+
+  /* — Histogram — */
+  const kmVals = rows.filter(r => r.km != null).map(r => r.km);
+  const bins = [0, 25, 50, 100, 150, 200, 300, 500, 750, 1000, 2000];
+  const labels = bins.slice(0, -1).map((b, i) => `${b}–${bins[i+1]}`);
+  const counts = bins.slice(0, -1).map((b, i) => kmVals.filter(v => v >= b && v < bins[i+1]).length);
+  destroyChart('hist');
+  charts.hist = new Chart(document.getElementById('ch-hist'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data: counts,
+        backgroundColor: 'rgba(139,92,246,.7)',
+        borderRadius: 5, borderSkipped: false
+      }]
+    },
+    options: baseOpts({ yFmt: v => v, legend: false, xRotate: -35 })
+  });
+}
+
+function baseOpts({ yFmt, legend = false, xRotate = 0 } = {}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: legend },
+      tooltip: { callbacks: { label: ctx => ' ' + (yFmt ? yFmt(ctx.parsed.y) : ctx.parsed.y) } }
+    },
+    scales: {
+      x: { ticks: { maxRotation: Math.abs(xRotate), font: { size: 11 } } },
+      y: { ticks: { font: { size: 11 }, callback: yFmt || (v => v) } }
+    }
+  };
+}
+
+/* ═══════════════════════════════
+   TABS
+═══════════════════════════════ */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'wykresy') setTimeout(renderCharts, 50);
+}
+
+/* ═══════════════════════════════
+   MODAL ADD / EDIT
+═══════════════════════════════ */
+function openAdd() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'Dodaj nowy wpis';
+  document.getElementById('f-date').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('f-odo').value = '';
+  openOverlay('ov-form');
+  setTimeout(() => document.getElementById('f-odo').focus(), 120);
+}
+
+function openEdit(id) {
+  editingId = id;
+  const e = entries.find(x => x.id === id);
+  document.getElementById('modal-title').textContent = 'Edytuj wpis';
+  document.getElementById('f-date').value = e.date;
+  document.getElementById('f-odo').value = e.odometer;
+  openOverlay('ov-form');
+}
+
+function closeModal() { closeOverlay('ov-form'); }
+
+function saveEntry() {
+  const date = document.getElementById('f-date').value;
+  const odo = parseInt(document.getElementById('f-odo').value, 10);
+  if (!date || isNaN(odo) || odo < 0) { showToast('⚠️ Podaj poprawną datę i przebieg!'); return; }
+
+  if (editingId != null) {
+    const idx = entries.findIndex(e => e.id === editingId);
+    entries[idx] = { id: editingId, date, odometer: odo };
+    showToast('✅ Wpis zaktualizowany');
+  } else {
+    entries.push({ id: nextId++, date, odometer: odo });
+    showToast('✅ Wpis dodany');
+  }
+  persist();
+  closeModal();
+  renderAll();
+}
+
+/* ═══════════════════════════════
+   DELETE
+═══════════════════════════════ */
+function askDel(id) {
+  pendingDelId = id;
+  openOverlay('ov-del');
+  document.getElementById('del-yes').onclick = () => {
+    entries = entries.filter(e => e.id !== pendingDelId);
+    persist();
+    renderAll();
+    closeDel();
+    showToast('🗑️ Wpis usunięty');
+  };
+}
+
+function closeDel() { closeOverlay('ov-del'); }
+
+/* ═══════════════════════════════
+   OVERLAY HELPERS
+═══════════════════════════════ */
+function openOverlay(id) { document.getElementById(id).classList.add('open'); }
+function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
+
+['ov-form', 'ov-del'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeOverlay(id);
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeDel(); }
+  if (e.key === 'Enter' && document.getElementById('ov-form').classList.contains('open')) saveEntry();
+});
+
+/* ═══════════════════════════════
+   TOAST
+═══════════════════════════════ */
+let _tt;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+function initApp() {
+  loadData();
+  renderAll();
+}
+</script>
+</body>
+</html>
